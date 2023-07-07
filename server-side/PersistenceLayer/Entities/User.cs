@@ -6,7 +6,6 @@
         public string Username { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[32];
         public byte[] PasswordSalt { get; set; } = new byte[32];
-        public Boolean IsLoggedIn { get; set; }
         public int? ImageId { get; set; }
         public Image Image { get; set; }
         public ICollection<Group> Groups { get; set; }

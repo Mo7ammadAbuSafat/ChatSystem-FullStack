@@ -46,7 +46,6 @@ namespace PersistenceLayer.DbContexts
 
             modelBuilder.Entity<User>().Property(u => u.ImageId).IsRequired(false);
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
-            modelBuilder.Entity<User>().Property(u => u.IsLoggedIn).HasDefaultValue(false);
         }
     }
 }

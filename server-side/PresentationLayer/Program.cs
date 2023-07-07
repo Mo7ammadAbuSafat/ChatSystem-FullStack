@@ -1,3 +1,5 @@
+using BusinessLayer.Services.FileServices.Implementations;
+using BusinessLayer.Services.FileServices.Interfaces;
 using BusinessLayer.Services.UserService.Implementations;
 using BusinessLayer.Services.UserService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,15 +18,20 @@ var builder = WebApplication.CreateBuilder(args);
 //UserServices
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+builder.Services.AddScoped<IUserProfileImageService, UserProfileImageService>();
+
+//FileServices
+builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
