@@ -36,7 +36,6 @@ export const AuthContextProvider = ({ children }) => {
         );
         const user = response.data;
         setUser(user);
-        console.log(user);
       } catch (error) {
         console.error(error);
         setUser(null);

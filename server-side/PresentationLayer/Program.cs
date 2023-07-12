@@ -19,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 builder.Services.AddScoped<IUserProfileImageService, UserProfileImageService>();
+builder.Services.AddScoped<IUserRetrievalService, UserRetrievalService>();
 
 //FileServices
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();

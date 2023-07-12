@@ -6,6 +6,7 @@ import RightItem from "../../Components/ThreeColumnLayout/RightItem";
 import LeftSidebar from "../../Components/LeftSidebar";
 import SimpleBackdrop from "../../Components/SimpleBackdrop";
 import AuthContext from "../../Components/Contexts/AuthProvider";
+import RightSidebar from "../../Components/RightSidebar";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -17,7 +18,9 @@ const Home = () => {
         <LeftSidebar />
       </LeftItem>
       <MiddleItem></MiddleItem>
-      <RightItem></RightItem>
+      <RightItem>
+        <RightSidebar />
+      </RightItem>
     </LayoutContainer>
   );
 };

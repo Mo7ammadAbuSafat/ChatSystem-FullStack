@@ -34,7 +34,7 @@ const LeftSidebarHeader = () => {
       alignItems={"center"}
       justifyContent={"space-between"}
     >
-      <UserCard user={user} />
+      <UserCard user={user} textColor="#03AC13" size="xLarge" />
       <ClickMenu
         handleClick={handleClickMenu}
         handleClose={handleCloseMenu}
