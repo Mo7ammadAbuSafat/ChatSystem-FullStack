@@ -7,21 +7,27 @@ import LeftSidebar from "../../Components/LeftSidebar";
 import SimpleBackdrop from "../../Components/SimpleBackdrop";
 import AuthContext from "../../Components/Contexts/AuthProvider";
 import RightSidebar from "../../Components/RightSidebar";
+import ChatContextProvider from "../../Components/Contexts/ChatProvider";
+import Chat from "../../Components/Chat";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
   return user === null ? (
     <SimpleBackdrop />
   ) : (
-    <LayoutContainer>
-      <LeftItem>
-        <LeftSidebar />
-      </LeftItem>
-      <MiddleItem></MiddleItem>
-      <RightItem>
-        <RightSidebar />
-      </RightItem>
-    </LayoutContainer>
+    <ChatContextProvider>
+      <LayoutContainer>
+        <LeftItem>
+          <LeftSidebar />
+        </LeftItem>
+        <MiddleItem>
+          <Chat />
+        </MiddleItem>
+        <RightItem>
+          <RightSidebar />
+        </RightItem>
+      </LayoutContainer>
+    </ChatContextProvider>
   );
 };
 

@@ -1,10 +1,18 @@
-import { Box, IconButton, Stack, Tooltip } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Stack,
+  Tooltip,
+} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import PeopleSearchField from "./PeopleSearchField";
 import AuthContext from "../Contexts/AuthProvider";
 import UserCard from "../UserCard";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import ChatIcon from "@mui/icons-material/Chat";
+import { ChatContext } from "../Contexts/ChatProvider";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import MySearchTextField from "../Inputs/MySearchTextField";
 
 const RightSidebar = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -13,11 +21,12 @@ const RightSidebar = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(AuthContext);
+  const { setSelectedUser } = useContext(ChatContext);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      var data = { pageNumber, pageSize: 10, searchText };
+      var data = { pageNumber, pageSize: 7, searchText };
       await axios
         .get("https://localhost:7271/api/users", {
           params: data,
@@ -28,7 +37,9 @@ const RightSidebar = () => {
           },
         })
         .then((response) => {
-          setUsers(response.data.users);
+          pageNumber > 1
+            ? setUsers([...users, ...response.data.users])
+            : setUsers(response.data.users);
           setNumOfPages(response.data.numOfPages);
         });
       setIsLoading(false);
@@ -37,17 +48,19 @@ const RightSidebar = () => {
   }, [pageNumber, searchText]);
 
   const onSearchTextChange = (event) => {
+    setPageNumber(1);
     const value = event.target.value;
     setSearchText(value);
   };
 
   return (
     <Stack alignItems={"center"} paddingTop={"10px"}>
-      <PeopleSearchField
-        searchText={searchText}
+      <MySearchTextField
+        value={searchText}
         onChange={onSearchTextChange}
+        placeholder={"search people"}
       />
-      {isLoading ? (
+      {isLoading && pageNumber === 1 ? (
         <Box flex={4}>Loading...</Box>
       ) : (
         <Stack spacing={3} width={"85%"} marginTop={"15px"}>
@@ -60,13 +73,27 @@ const RightSidebar = () => {
               >
                 <UserCard user={user} size="large" />
                 <Tooltip title="start a chat" arrow>
-                  <IconButton>
-                    <ChatBubbleIcon sx={{ color: "#03AC13" }} />
+                  <IconButton onClick={() => setSelectedUser(user)}>
+                    <ChatIcon sx={{ color: "#03AC1390" }} />
                   </IconButton>
                 </Tooltip>
               </Stack>
             );
           })}
+          {pageNumber < numOfPages &&
+            (!isLoading ? (
+              <IconButton onClick={() => setPageNumber(pageNumber + 1)}>
+                <ExpandCircleDownIcon
+                  sx={{ color: "#03AC1390", fontSize: "45px" }}
+                />
+              </IconButton>
+            ) : (
+              <CircularProgress
+                color="inherit"
+                size={16}
+                sx={{ marginRight: "5px" }}
+              />
+            ))}
         </Stack>
       )}
     </Stack>

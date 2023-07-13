@@ -1,14 +1,23 @@
 import { Divider, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import LeftSidebarHeader from "./LeftSidebarHeader";
-import FriendsSearchField from "./FriendsSearchField";
+import MySearchTextField from "../Inputs/MySearchTextField";
 
 const LeftSidebar = () => {
+  const [searchText, setSearchText] = useState("");
+  const onSearchTextChange = (event) => {
+    const value = event.target.value;
+    setSearchText(value);
+  };
   return (
     <Stack>
       <LeftSidebarHeader />
       <Divider />
-      <FriendsSearchField />
+      <MySearchTextField
+        value={searchText}
+        onChange={onSearchTextChange}
+        placeholder={"search friends"}
+      />
     </Stack>
   );
 };

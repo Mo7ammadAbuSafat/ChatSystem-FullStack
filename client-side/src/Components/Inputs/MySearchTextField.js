@@ -16,20 +16,20 @@ const StyledPaper = styled(Paper)({
   border: "0.5px solid #eae5e5",
 });
 
-const FriendsSearchField = (label, value, onChange) => {
+const MySearchTextField = ({ value, onChange, placeholder }) => {
   return (
     <StyledPaper component="form">
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="search friends"
-        value={""}
-        // onChange={onChange}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
       />
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+      <IconButton disabled type="button" sx={{ p: "10px" }} aria-label="search">
         <SearchIcon />
       </IconButton>
     </StyledPaper>
   );
 };
 
-export default FriendsSearchField;
+export default MySearchTextField;
