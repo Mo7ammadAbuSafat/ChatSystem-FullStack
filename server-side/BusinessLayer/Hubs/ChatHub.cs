@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Services.UserService.Interfaces;
+﻿using BusinessLayer.Services.PrivateMessageServices.Interfaces;
+using BusinessLayer.Services.UserService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -8,11 +9,15 @@ namespace BusinessLayer.Hubs
     public class ChatHub : Hub
     {
         private readonly IAuthenticatedUserService authenticatedUserService;
+        private readonly IPrivateMessageService privateMessageService;
         private static readonly Dictionary<int, string> activeUsers = new();
 
-        public ChatHub(IAuthenticatedUserService authenticatedUserService)
+        public ChatHub(
+            IAuthenticatedUserService authenticatedUserService,
+            IPrivateMessageService privateMessageService)
         {
             this.authenticatedUserService = authenticatedUserService;
+            this.privateMessageService = privateMessageService;
         }
 
         public async Task SendMessageToAll(int userId, string message)
@@ -24,8 +29,9 @@ namespace BusinessLayer.Hubs
         {
             if (activeUsers.ContainsKey(userId))
             {
-                await Clients.Client(activeUsers[userId]).SendAsync("ReceiveMessage", message);
+                await Clients.Client(activeUsers[userId]).SendAsync("ReceiveMessage", userId, message);
             }
+            await privateMessageService.StorePrivateMessage(userId, message);
         }
 
         public async Task AddUser(int userId, string connectionId)
@@ -41,7 +47,7 @@ namespace BusinessLayer.Hubs
         public override async Task OnConnectedAsync()
         {
             var connectionId = GetConnectionId();
-            var userId = authenticatedUserService.GetAuthenticatedUserIdAsync();
+            var userId = authenticatedUserService.GetAuthenticatedUserId();
             activeUsers.Add(userId, connectionId);
             await base.OnConnectedAsync();
         }

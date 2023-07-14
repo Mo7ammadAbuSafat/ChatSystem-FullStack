@@ -32,7 +32,7 @@ namespace BusinessLayer.Services.UserService.Implementations
 
         public async Task ChangeProfilePictureAsync(int userId, IFormFile image)
         {
-            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserIdAsync();
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
             if (authenticatedUserId != userId)
             {
                 throw new UnauthorizedException();
@@ -61,7 +61,7 @@ namespace BusinessLayer.Services.UserService.Implementations
 
         public async Task AddProfilePictureAsync(int userId, IFormFile image)
         {
-            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserIdAsync();
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
             if (authenticatedUserId != userId)
             {
                 throw new UnauthorizedException();
@@ -88,7 +88,7 @@ namespace BusinessLayer.Services.UserService.Implementations
 
         public async Task DeleteProfilePictureAsync(int userId)
         {
-            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserIdAsync();
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
             if (authenticatedUserId != userId)
             {
                 throw new UnauthorizedException();

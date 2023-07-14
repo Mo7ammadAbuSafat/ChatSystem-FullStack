@@ -1,5 +1,5 @@
 import { Divider, IconButton, Stack } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ChatContext } from "../Contexts/ChatProvider";
 import MessageInputField from "./MessageInputField";
 import SendIcon from "@mui/icons-material/Send";
@@ -8,6 +8,10 @@ import ChatHeader from "./ChatHeader";
 
 const Chat = () => {
   const { selectedUser, handleSendMessage } = useContext(ChatContext);
+  const [textMessage, setTextMessage] = useState("");
+  const handleTextMessageChange = (e) => {
+    setTextMessage(e.target.value);
+  };
 
   return selectedUser === null ? (
     <NoChatSelected />
@@ -18,11 +22,14 @@ const Chat = () => {
       <Stack height={"calc(100vh - 200px)"}></Stack>
       <Divider />
       <Stack height={"85px"} direction={"row"} alignItems={"center"}>
-        <MessageInputField />
+        <MessageInputField
+          value={textMessage}
+          onChange={handleTextMessageChange}
+        />
         <IconButton
           type="button"
           sx={{ p: "10px" }}
-          onClick={handleSendMessage}
+          onClick={() => handleSendMessage(textMessage)}
         >
           <SendIcon sx={{ color: "#03AC13", fontSize: "35px" }} />
         </IconButton>

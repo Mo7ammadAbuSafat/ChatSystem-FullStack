@@ -32,7 +32,7 @@ class SignalRService {
 
   sendMessage = async (userId, message) => {
     await this.connection
-      .invoke("SendMessageToAll", userId, message)
+      .invoke("SendMessageToUser", userId, message)
       .catch((error) => {
         console.error("Error sending message:", error);
       });

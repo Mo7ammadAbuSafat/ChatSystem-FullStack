@@ -1,6 +1,8 @@
 using BusinessLayer.Hubs;
 using BusinessLayer.Services.FileServices.Implementations;
 using BusinessLayer.Services.FileServices.Interfaces;
+using BusinessLayer.Services.PrivateMessageServices.Implementations;
+using BusinessLayer.Services.PrivateMessageServices.Interfaces;
 using BusinessLayer.Services.UserService.Implementations;
 using BusinessLayer.Services.UserService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,8 +28,14 @@ builder.Services.AddScoped<IUserRetrievalService, UserRetrievalService>();
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<IFileService, FileService>();
 
+//MessagesServices
+builder.Services.AddScoped<IPrivateMessageService, PrivateMessageService>();
+
+
+
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPrivateMessageRepository, PrivateMessageRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
