@@ -1,23 +1,32 @@
-import { Divider, Stack } from "@mui/material";
+import { Divider, IconButton, Stack } from "@mui/material";
 import React, { useContext } from "react";
-import UserCard from "../UserCard";
 import { ChatContext } from "../Contexts/ChatProvider";
+import MessageInputField from "./MessageInputField";
+import SendIcon from "@mui/icons-material/Send";
+import NoChatSelected from "./NoChatSelected";
+import ChatHeader from "./ChatHeader";
 
 const Chat = () => {
-  const { selectedUser } = useContext(ChatContext);
+  const { selectedUser, handleSendMessage } = useContext(ChatContext);
 
   return selectedUser === null ? (
-    <Stack alignItems={"center"} justifyContent={"center"} height={"90vh"}>
-      <img
-        alt=""
-        src="/Assets/Start Chat-1.png"
-        style={{ width: "40%", objectFit: "contain", opacity: "50%" }}
-      />
-    </Stack>
+    <NoChatSelected />
   ) : (
-    <Stack paddingTop={"15px"} spacing={2}>
-      <UserCard user={selectedUser} />
+    <Stack paddingTop={"15px"}>
+      <ChatHeader />
+      <Divider sx={{ margin: "15px 0 0 0" }} />
+      <Stack height={"calc(100vh - 200px)"}></Stack>
       <Divider />
+      <Stack height={"85px"} direction={"row"} alignItems={"center"}>
+        <MessageInputField />
+        <IconButton
+          type="button"
+          sx={{ p: "10px" }}
+          onClick={handleSendMessage}
+        >
+          <SendIcon sx={{ color: "#03AC13", fontSize: "35px" }} />
+        </IconButton>
+      </Stack>
     </Stack>
   );
 };

@@ -1,3 +1,4 @@
+using BusinessLayer.Hubs;
 using BusinessLayer.Services.FileServices.Implementations;
 using BusinessLayer.Services.FileServices.Interfaces;
 using BusinessLayer.Services.UserService.Implementations;
@@ -78,14 +79,36 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddCors(c =>
 {
     c.AddDefaultPolicy(options =>
-    options.AllowAnyOrigin()
+    options.WithOrigins("http://localhost:3000")
     .AllowAnyMethod()
-    .AllowAnyHeader());
+    .AllowAnyHeader()
+    .AllowCredentials());
+});
+
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
 });
 
 var app = builder.Build();
@@ -101,9 +124,12 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chat");
 
 app.Run();

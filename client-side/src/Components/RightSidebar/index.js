@@ -22,6 +22,7 @@ const RightSidebar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(AuthContext);
   const { setSelectedUser } = useContext(ChatContext);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +46,7 @@ const RightSidebar = () => {
       setIsLoading(false);
     };
     fetchData();
-  }, [pageNumber, searchText]);
+  }, [pageNumber, searchText, token]);
 
   const onSearchTextChange = (event) => {
     setPageNumber(1);
@@ -61,22 +62,27 @@ const RightSidebar = () => {
         placeholder={"search people"}
       />
       {isLoading && pageNumber === 1 ? (
-        <Box flex={4}>Loading...</Box>
+        <Box flex={4}>
+          <CircularProgress color="inherit" size={16} />
+        </Box>
       ) : (
         <Stack spacing={3} width={"85%"} marginTop={"15px"}>
-          {users.map((user) => {
+          {users.map((user, index) => {
             return (
               <Stack
+                key={index}
                 direction={"row"}
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
                 <UserCard user={user} size="large" />
-                <Tooltip title="start a chat" arrow>
-                  <IconButton onClick={() => setSelectedUser(user)}>
-                    <ChatIcon sx={{ color: "#03AC1390" }} />
-                  </IconButton>
-                </Tooltip>
+                {user.id !== authContext.user.id && (
+                  <Tooltip title="start a chat" arrow>
+                    <IconButton onClick={() => setSelectedUser(user)}>
+                      <ChatIcon sx={{ color: "#03AC1390" }} />
+                    </IconButton>
+                  </Tooltip>
+                )}
               </Stack>
             );
           })}

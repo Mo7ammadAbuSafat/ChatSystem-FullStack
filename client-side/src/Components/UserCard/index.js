@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 const UserCard = ({ size, textColor = "#757575", user }) => {
   const StyledTypography = styled(Typography)({
     color: textColor,
-    fontSize: "18px",
+    fontSize: "16px",
     fontWeight: "bold",
   });
 
