@@ -6,7 +6,7 @@
 
         public const string NotFoundUserByUsername = "no user with this username";
 
-        public const string UsernameAlreadyExsist = "this Username is already exist";
+        public const string UsernameAlreadyExsist = "this username is already exist";
 
         public const string IncorrectPassword = "password is not correct";
 

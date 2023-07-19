@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;600&family=Rubik:wght@400;500&display=swap');
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    font-family: 'DynaPuff', cursive;
+    font-family: 'Rubik', sans-serif;
+}

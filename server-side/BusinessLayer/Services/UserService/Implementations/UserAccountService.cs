@@ -64,7 +64,7 @@ namespace BusinessLayer.Services.UserService.Implementations
 
         public async Task<UserResponseDto> GetUserByJwtTokenAsync()
         {
-            var userId = authenticatedUserService.GetAuthenticatedUserIdAsync();
+            var userId = authenticatedUserService.GetAuthenticatedUserId();
             var user = await userRepository.GetUserById(userId);
             return mapper.Map<UserResponseDto>(user);
         }

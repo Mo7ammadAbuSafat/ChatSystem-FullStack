@@ -1,5 +1,8 @@
+using BusinessLayer.Hubs;
 using BusinessLayer.Services.FileServices.Implementations;
 using BusinessLayer.Services.FileServices.Interfaces;
+using BusinessLayer.Services.PrivateMessageServices.Implementations;
+using BusinessLayer.Services.PrivateMessageServices.Interfaces;
 using BusinessLayer.Services.UserService.Implementations;
 using BusinessLayer.Services.UserService.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,13 +22,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
 builder.Services.AddScoped<IUserProfileImageService, UserProfileImageService>();
+builder.Services.AddScoped<IUserRetrievalService, UserRetrievalService>();
 
 //FileServices
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<IFileService, FileService>();
 
+//MessagesServices
+builder.Services.AddScoped<IPrivateMessageService, PrivateMessageService>();
+
+
+
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPrivateMessageRepository, PrivateMessageRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
@@ -77,7 +87,37 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
     });
+
+builder.Services.AddCors(c =>
+{
+    c.AddDefaultPolicy(options =>
+    options.WithOrigins("http://localhost:3000")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
+});
+
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 
 var app = builder.Build();
 
@@ -87,12 +127,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chat");
 
 app.Run();
