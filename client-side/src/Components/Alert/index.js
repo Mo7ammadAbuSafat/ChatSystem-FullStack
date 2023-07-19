@@ -13,12 +13,13 @@ const MyAlert = () => {
 
   return (
     <>
-      <Snackbar open={isOpen} autoHideDuration={3000} onClose={closeAlert}>
-        <Alert
-          onClose={closeAlert}
-          severity={alertType}
-          sx={{ width: "300px" }}
-        >
+      <Snackbar
+        open={isOpen}
+        autoHideDuration={3000}
+        onClose={closeAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={closeAlert} severity={alertType}>
           {alertMessage}
         </Alert>
       </Snackbar>

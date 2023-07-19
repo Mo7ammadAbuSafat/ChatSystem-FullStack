@@ -6,7 +6,7 @@ namespace BusinessLayer.Services.PrivateMessageServices.Interfaces
     {
         Task<PrivateMessageResponseDto> StorePrivateMessage(int destinationUserId, string textMessage);
         Task<PrivateMessagesWithPaginationResponseDto> GetPrivateMessages(
-            DateTime pageDate,
+            DateTime? pageDate,
             int pageSize,
             int firstUserId,
             int secoundUserId);

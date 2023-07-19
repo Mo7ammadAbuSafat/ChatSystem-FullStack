@@ -3,6 +3,7 @@ import { useState, createContext } from "react";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import AuthContext from "./AuthProvider";
 import AlertContext from "./AlertProvider";
+import axios from "axios";
 
 export const ChatContext = createContext();
 
@@ -13,6 +14,7 @@ const ChatContextProvider = ({ children }) => {
   const [connectionState, setConnectionState] = useState(null);
   const { token, user } = useContext(AuthContext);
   const { openAlert } = useContext(AlertContext);
+  const [isThereMoreMessages, setIsThereMoreMessages] = useState(false);
 
   const fetch = async () => {
     const connection = new HubConnectionBuilder()
@@ -49,9 +51,34 @@ const ChatContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setMessages([]);
     selectedUserRef.current = selectedUser;
+    setMessages([]);
+    selectedUser && loadMessages(true);
   }, [selectedUser]);
+
+  const loadMessages = async (isNewUser) => {
+    var data = {
+      pageDate: messages[0] && !isNewUser ? messages[0].creationDate : null,
+      pageSize: 13,
+      firstUserId: user.id,
+      secoundUserId: selectedUser.id,
+    };
+    await axios
+      .get("https://localhost:7271/api/private-messages", {
+        params: data,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        isNewUser
+          ? setMessages(response.data.messages)
+          : setMessages([...response.data.messages, ...messages]);
+        setIsThereMoreMessages(response.data.isThereMore);
+      });
+  };
 
   const handleSendMessage = async (message) => {
     if (selectedUser && message !== "") {
@@ -72,7 +99,14 @@ const ChatContextProvider = ({ children }) => {
 
   return (
     <ChatContext.Provider
-      value={{ messages, selectedUser, setSelectedUser, handleSendMessage }}
+      value={{
+        messages,
+        selectedUser,
+        setSelectedUser,
+        handleSendMessage,
+        isThereMoreMessages,
+        loadMessages,
+      }}
     >
       {children}
     </ChatContext.Provider>

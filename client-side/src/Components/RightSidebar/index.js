@@ -90,7 +90,7 @@ const RightSidebar = () => {
             (!isLoading ? (
               <IconButton onClick={() => setPageNumber(pageNumber + 1)}>
                 <ExpandCircleDownIcon
-                  sx={{ color: "#03AC1390", fontSize: "45px" }}
+                  sx={{ color: "#03AC1390", fontSize: "45px", margin: "auto" }}
                 />
               </IconButton>
             ) : (

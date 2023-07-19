@@ -7,18 +7,16 @@ import NoChatSelected from "./NoChatSelected";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import styled from "@emotion/styled";
+import UpdateIcon from "@mui/icons-material/Update";
 
 const StyledMessagesContainer = styled(Stack)({
   height: "calc(100vh - 200px)",
   overflowY: "auto",
   alignItems: "baseline",
-  padding: "0 5px 2px 5px",
+  padding: "10px 5px",
   scrollbarWidth: "thin",
   "&::-webkit-scrollbar": {
-    width: "0.4em",
-  },
-  "&::-webkit-scrollbar-track": {
-    background: "#75757530",
+    width: "0.3em",
   },
   "&::-webkit-scrollbar-thumb": {
     backgroundColor: "#75757550",
@@ -30,8 +28,18 @@ const StyledMessagesContainer = styled(Stack)({
 });
 
 const Chat = () => {
-  const { selectedUser, handleSendMessage, messages } = useContext(ChatContext);
+  const {
+    selectedUser,
+    handleSendMessage,
+    messages,
+    isThereMoreMessages,
+    loadMessages,
+  } = useContext(ChatContext);
+
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [textMessage, setTextMessage] = useState("");
+  const [firstMessageId, setFirstMessageId] = useState(null);
+
   const handleTextMessageChange = (e) => {
     setTextMessage(e.target.value);
   };
@@ -40,14 +48,26 @@ const Chat = () => {
 
   useEffect(() => {
     if (messagesContainerRef && messagesContainerRef.current) {
-      const { clientHeight, scrollHeight } = messagesContainerRef.current;
-      messagesContainerRef.current.scrollTo({
-        left: 0,
-        top: scrollHeight - clientHeight,
-        behavior: "smooth",
-      });
+      const { clientHeight, scrollHeight, scrollTop } =
+        messagesContainerRef.current;
+      if (scrollHeight - (scrollTop + clientHeight) < 200) {
+        messagesContainerRef.current.scrollTo({
+          top: scrollHeight,
+          behavior: "smooth",
+        });
+      } else if (messages[0].id !== firstMessageId) {
+        messagesContainerRef.current.scrollTo({
+          top: scrollHeight - scrollPosition,
+        });
+        setFirstMessageId(messages[0].id);
+      }
     }
   }, [messages]);
+
+  const handleScrollChange = () => {
+    const { scrollHeight, scrollTop } = messagesContainerRef.current;
+    setScrollPosition(scrollHeight - scrollTop);
+  };
 
   return selectedUser === null ? (
     <NoChatSelected />
@@ -55,7 +75,22 @@ const Chat = () => {
     <Stack paddingTop={"15px"}>
       <ChatHeader />
       <Divider sx={{ marginTop: "15px" }} />
-      <StyledMessagesContainer ref={messagesContainerRef} spacing={0.5}>
+      <StyledMessagesContainer
+        ref={messagesContainerRef}
+        spacing={0.5}
+        onScroll={handleScrollChange}
+      >
+        {isThereMoreMessages && (
+          <IconButton
+            type="button"
+            sx={{ margin: "auto" }}
+            onClick={() => {
+              loadMessages(false);
+            }}
+          >
+            <UpdateIcon sx={{ color: "#757575", fontSize: "35px" }} />
+          </IconButton>
+        )}
         <ChatMessages />
       </StyledMessagesContainer>
       <Divider />

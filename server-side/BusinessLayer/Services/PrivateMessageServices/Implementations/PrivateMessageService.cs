@@ -52,7 +52,7 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
         }
 
         public async Task<PrivateMessagesWithPaginationResponseDto> GetPrivateMessages(
-            DateTime pageDate,
+            DateTime? pageDate,
             int pageSize,
             int firstUserId,
             int secoundUserId)
@@ -68,7 +68,11 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
             {
                 throw new UnauthorizedException();
             }
-            var queryResult = await privateMessageRepository.GetPrivateMessagesForPrivateChat(pageDate, pageSize, firstUserId, secoundUserId);
+            if (pageDate == null)
+            {
+                pageDate = DateTime.Now;
+            }
+            var queryResult = await privateMessageRepository.GetPrivateMessagesForPrivateChat((DateTime)pageDate, pageSize, firstUserId, secoundUserId);
             var result = new PrivateMessagesWithPaginationResponseDto
             {
                 Messages = mapper.Map<IEnumerable<PrivateMessageResponseDto>>(queryResult.Item1),

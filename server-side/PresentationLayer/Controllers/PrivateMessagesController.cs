@@ -18,7 +18,7 @@ namespace PresentationLayer.Controllers
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetPrivateMessages(
-            DateTime pageDate,
+            DateTime? pageDate,
             int pageSize,
             int firstUserId,
             int secoundUserId)
