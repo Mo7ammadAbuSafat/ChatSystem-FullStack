@@ -50,5 +50,31 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
             await unitOfWork.SaveChangesAsync();
             return mapper.Map<PrivateMessageResponseDto>(message);
         }
+
+        public async Task<PrivateMessagesWithPaginationResponseDto> GetPrivateMessages(
+            DateTime pageDate,
+            int pageSize,
+            int firstUserId,
+            int secoundUserId)
+        {
+            var firstUser = await userRepository.GetUserById(firstUserId);
+            var secoundUser = await userRepository.GetUserById(secoundUserId);
+            if (firstUser == null || secoundUser == null)
+            {
+                throw new NotFoundException(UserExceptionMessages.NotFoundUserById);
+            }
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
+            if (authenticatedUserId != firstUserId)
+            {
+                throw new UnauthorizedException();
+            }
+            var queryResult = await privateMessageRepository.GetPrivateMessagesForPrivateChat(pageDate, pageSize, firstUserId, secoundUserId);
+            var result = new PrivateMessagesWithPaginationResponseDto
+            {
+                Messages = mapper.Map<IEnumerable<PrivateMessageResponseDto>>(queryResult.Item1),
+                IsThereMore = queryResult.Item2
+            };
+            return result;
+        }
     }
 }

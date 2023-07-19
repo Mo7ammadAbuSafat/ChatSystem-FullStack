@@ -6,8 +6,8 @@ namespace PersistenceLayer.Repositories.Interfaces
     {
         Task AddAsync(PrivateMessage message);
         void Delete(PrivateMessage message);
-        Task<Tuple<List<PrivateMessage>, int>> GetPrivateMessagesForPrivateChat(
-            int pageNumber,
+        Task<Tuple<List<PrivateMessage>, bool>> GetPrivateMessagesForPrivateChat(
+            DateTime pageDate,
             int pageSize,
             int firstUserId,
             int secoundUserId);

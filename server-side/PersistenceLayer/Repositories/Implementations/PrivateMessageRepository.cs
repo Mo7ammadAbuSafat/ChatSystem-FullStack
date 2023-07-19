@@ -23,8 +23,8 @@ namespace PersistenceLayer.Repositories.Implementations
             context.PrivateMessages.Remove(message);
         }
 
-        public async Task<Tuple<List<PrivateMessage>, int>> GetPrivateMessagesForPrivateChat(
-            int pageNumber,
+        public async Task<Tuple<List<PrivateMessage>, bool>> GetPrivateMessagesForPrivateChat(
+            DateTime pageDate,
             int pageSize,
             int firstUserId,
             int secoundUserId)
@@ -32,20 +32,16 @@ namespace PersistenceLayer.Repositories.Implementations
             var messages = context.PrivateMessages
                 .Where(m => (m.SenderId == firstUserId && m.ReceiverId == secoundUserId) ||
                            (m.SenderId == secoundUserId && m.ReceiverId == firstUserId))
+                .Where(m => m.CreationDate < pageDate)
                 .AsQueryable();
-            var usersCount = await messages.CountAsync();
-            var numOfPages = Math.Ceiling(usersCount / (pageSize * 1f));
-            if (pageNumber > numOfPages && numOfPages != 0)
-            {
-                return null;
-            }
+            var messagesCount = await messages.CountAsync();
+            var isThereMore = messagesCount > pageSize;
             var messagesList = await messages
                 .OrderByDescending(c => c.CreationDate)
-                .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .OrderBy(c => c.CreationDate)
                 .ToListAsync();
-            var result = Tuple.Create(messagesList, (int)numOfPages);
+            var result = Tuple.Create(messagesList, isThereMore);
             return result;
         }
 

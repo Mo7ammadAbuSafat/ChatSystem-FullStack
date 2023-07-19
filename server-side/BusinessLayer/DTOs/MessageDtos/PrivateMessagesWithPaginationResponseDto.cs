@@ -2,6 +2,7 @@
 {
     public class PrivateMessagesWithPaginationResponseDto
     {
-
+        public IEnumerable<PrivateMessageResponseDto> Messages { get; set; }
+        public bool IsThereMore { get; set; }
     }
 }
