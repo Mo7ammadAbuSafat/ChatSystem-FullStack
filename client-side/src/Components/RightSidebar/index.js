@@ -94,11 +94,7 @@ const RightSidebar = () => {
                 />
               </IconButton>
             ) : (
-              <CircularProgress
-                color="inherit"
-                size={16}
-                sx={{ marginRight: "5px" }}
-              />
+              <CircularProgress color="inherit" size={16} />
             ))}
         </Stack>
       )}

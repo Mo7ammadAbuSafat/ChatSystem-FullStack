@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useState, createContext } from "react";
-import SignalRService from "../../Services/SignalRService";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import AuthContext from "./AuthProvider";
 import AlertContext from "./AlertProvider";
 
@@ -8,39 +8,71 @@ export const ChatContext = createContext();
 
 const ChatContextProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const selectedUserRef = useRef(selectedUser);
   const [messages, setMessages] = useState([]);
-  const [service, setService] = useState(null);
-  const { token } = useContext(AuthContext);
+  const [connectionState, setConnectionState] = useState(null);
+  const { token, user } = useContext(AuthContext);
   const { openAlert } = useContext(AlertContext);
-  useEffect(() => {
-    const fetch = async () => {
-      const signalRService = new SignalRService(token);
 
-      await signalRService.startConnection();
-      signalRService.registerReceiveMessageHandler(
-        (userId, receivedMessage) => {
-          userId === selectedUser?.id
-            ? setMessages([...messages, receivedMessage])
-            : openAlert("", "you received a message");
-          console.log(userId, receivedMessage);
-        }
-      );
-      setService(signalRService);
-    };
+  const fetch = async () => {
+    const connection = new HubConnectionBuilder()
+      .withUrl("https://localhost:7271/chat", {
+        accessTokenFactory: () => token,
+      })
+      .configureLogging(LogLevel.Information)
+      .build();
+    connection.on("ReceiveMessage", (receivedMessage) => {
+      const currentSelectedUser = selectedUserRef.current;
+      currentSelectedUser && receivedMessage.senderId === currentSelectedUser.id
+        ? setMessages((messages) => [...messages, receivedMessage])
+        : openAlert(
+            "success",
+            `you received a message from ${receivedMessage.senderId}`
+          );
+      console.log(currentSelectedUser);
+      console.log(receivedMessage.senderId);
+    });
+    await connection
+      .start()
+      .then(() => {
+        console.log("SignalR connection started.");
+      })
+      .catch((error) => {
+        console.error("Error starting SignalR connection:", error);
+      });
+
+    setConnectionState(connection);
+  };
+
+  useEffect(() => {
     fetch();
   }, []);
 
-  useEffect(() => setMessages([]), [selectedUser]);
+  useEffect(() => {
+    setMessages([]);
+    selectedUserRef.current = selectedUser;
+  }, [selectedUser]);
 
-  const handleSendMessage = (message) => {
-    if (selectedUser) {
-      service.sendMessage(selectedUser.id, message);
+  const handleSendMessage = async (message) => {
+    if (selectedUser && message !== "") {
+      var newMessage = {
+        senderId: user.id,
+        receiverId: selectedUser.id,
+        creationDate: Date.now(),
+        textBody: message,
+      };
+      setMessages([...messages, newMessage]);
+      await connectionState
+        .invoke("SendMessageToUser", selectedUser.id, message)
+        .catch((error) => {
+          console.error("Error sending message:", error);
+        });
     }
   };
 
   return (
     <ChatContext.Provider
-      value={{ selectedUser, setSelectedUser, handleSendMessage }}
+      value={{ messages, selectedUser, setSelectedUser, handleSendMessage }}
     >
       {children}
     </ChatContext.Provider>

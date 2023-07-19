@@ -1,7 +1,9 @@
-﻿namespace BusinessLayer.Services.PrivateMessageServices.Interfaces
+﻿using BusinessLayer.DTOs.MessageDtos;
+
+namespace BusinessLayer.Services.PrivateMessageServices.Interfaces
 {
     public interface IPrivateMessageService
     {
-        Task StorePrivateMessage(int destinationUserId, string textMessage);
+        Task<PrivateMessageResponseDto> StorePrivateMessage(int destinationUserId, string textMessage);
     }
 }

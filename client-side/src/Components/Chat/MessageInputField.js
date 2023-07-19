@@ -14,13 +14,23 @@ const StyledPaper = styled(Paper)({
   border: "0.5px solid #eae5e5",
 });
 
-const MessageInputField = ({ value, onChange }) => {
+const MessageInputField = ({
+  setTextMessage,
+  textMessage,
+  onChange,
+  handleSendMessage,
+}) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSendMessage(textMessage);
+    setTextMessage("");
+  };
   return (
-    <StyledPaper component="form">
+    <StyledPaper component="form" onSubmit={onSubmit}>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder="type a message"
-        value={value}
+        value={textMessage}
         onChange={onChange}
       />
     </StyledPaper>

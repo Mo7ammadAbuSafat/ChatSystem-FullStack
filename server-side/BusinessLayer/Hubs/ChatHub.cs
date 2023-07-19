@@ -27,11 +27,11 @@ namespace BusinessLayer.Hubs
 
         public async Task SendMessageToUser(int userId, string message)
         {
+            var Storedmessage = await privateMessageService.StorePrivateMessage(userId, message);
             if (activeUsers.ContainsKey(userId))
             {
-                await Clients.Client(activeUsers[userId]).SendAsync("ReceiveMessage", userId, message);
+                await Clients.Client(activeUsers[userId]).SendAsync("ReceiveMessage", Storedmessage);
             }
-            await privateMessageService.StorePrivateMessage(userId, message);
         }
 
         public async Task AddUser(int userId, string connectionId)
@@ -48,7 +48,11 @@ namespace BusinessLayer.Hubs
         {
             var connectionId = GetConnectionId();
             var userId = authenticatedUserService.GetAuthenticatedUserId();
-            activeUsers.Add(userId, connectionId);
+            if (!activeUsers.ContainsKey(userId))
+            {
+                activeUsers.Add(userId, connectionId);
+            }
+
             await base.OnConnectedAsync();
         }
 

@@ -1,4 +1,6 @@
-﻿using BusinessLayer.ExceptionMessages;
+﻿using AutoMapper;
+using BusinessLayer.DTOs.MessageDtos;
+using BusinessLayer.ExceptionMessages;
 using BusinessLayer.Exceptions;
 using BusinessLayer.Services.PrivateMessageServices.Interfaces;
 using BusinessLayer.Services.UserService.Interfaces;
@@ -12,21 +14,24 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
         private readonly IPrivateMessageRepository privateMessageRepository;
         private readonly IUserRepository userRepository;
         private readonly IAuthenticatedUserService authenticatedUserService;
+        private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
 
         public PrivateMessageService(
             IPrivateMessageRepository privateMessageRepository,
             IUnitOfWork unitOfWork,
             IAuthenticatedUserService authenticatedUserService,
+            IMapper mapper,
             IUserRepository userRepository)
         {
             this.privateMessageRepository = privateMessageRepository;
             this.unitOfWork = unitOfWork;
             this.authenticatedUserService = authenticatedUserService;
+            this.mapper = mapper;
             this.userRepository = userRepository;
         }
 
-        public async Task StorePrivateMessage(int destinationUserId, string textMessage)
+        public async Task<PrivateMessageResponseDto> StorePrivateMessage(int destinationUserId, string textMessage)
         {
             var sourceUserId = authenticatedUserService.GetAuthenticatedUserId();
             var destinationUser = await userRepository.GetUserById(destinationUserId);
@@ -43,8 +48,7 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
             };
             await privateMessageRepository.AddAsync(message);
             await unitOfWork.SaveChangesAsync();
+            return mapper.Map<PrivateMessageResponseDto>(message);
         }
-
-
     }
 }
