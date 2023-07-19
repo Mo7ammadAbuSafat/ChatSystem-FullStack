@@ -15,6 +15,7 @@ const ChatContextProvider = ({ children }) => {
   const { token, user } = useContext(AuthContext);
   const { openAlert } = useContext(AlertContext);
   const [isThereMoreMessages, setIsThereMoreMessages] = useState(false);
+  const [activeUsers, setActiveUsers] = useState([]);
 
   const fetch = async () => {
     const connection = new HubConnectionBuilder()
@@ -31,8 +32,9 @@ const ChatContextProvider = ({ children }) => {
             "success",
             `you received a message from ${receivedMessage.senderId}`
           );
-      console.log(currentSelectedUser);
-      console.log(receivedMessage.senderId);
+    });
+    connection.on("ReceiveActiveUsers", (newActiveUsers) => {
+      setActiveUsers(newActiveUsers);
     });
     await connection
       .start()
@@ -106,6 +108,7 @@ const ChatContextProvider = ({ children }) => {
         handleSendMessage,
         isThereMoreMessages,
         loadMessages,
+        activeUsers,
       }}
     >
       {children}

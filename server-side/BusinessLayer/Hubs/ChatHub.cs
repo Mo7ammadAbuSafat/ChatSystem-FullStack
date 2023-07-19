@@ -44,6 +44,11 @@ namespace BusinessLayer.Hubs
             return Context.ConnectionId;
         }
 
+        public List<int> GetActiveUserIds()
+        {
+            return activeUsers.Keys.ToList();
+        }
+
         public override async Task OnConnectedAsync()
         {
             var connectionId = GetConnectionId();
@@ -52,7 +57,7 @@ namespace BusinessLayer.Hubs
             {
                 activeUsers.Add(userId, connectionId);
             }
-
+            await Clients.All.SendAsync("ReceiveActiveUsers", GetActiveUserIds());
             await base.OnConnectedAsync();
         }
 
@@ -68,6 +73,7 @@ namespace BusinessLayer.Hubs
                     break;
                 }
             }
+            await Clients.All.SendAsync("ReceiveActiveUsers", GetActiveUserIds());
             await base.OnDisconnectedAsync(exception);
         }
     }
