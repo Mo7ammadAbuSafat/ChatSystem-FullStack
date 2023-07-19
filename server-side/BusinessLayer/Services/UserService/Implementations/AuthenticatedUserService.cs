@@ -23,5 +23,15 @@ namespace BusinessLayer.Services.UserService.Implementations
             }
             return userId;
         }
+
+        public string GetAuthenticatedUsername()
+        {
+            var username = string.Empty;
+            if (httpContextAccessor.HttpContext != null)
+            {
+                username = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            }
+            return username;
+        }
     }
 }

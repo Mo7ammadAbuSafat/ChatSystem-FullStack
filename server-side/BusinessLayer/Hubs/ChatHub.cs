@@ -30,7 +30,8 @@ namespace BusinessLayer.Hubs
             var Storedmessage = await privateMessageService.StorePrivateMessage(userId, message);
             if (activeUsers.ContainsKey(userId))
             {
-                await Clients.Client(activeUsers[userId]).SendAsync("ReceiveMessage", Storedmessage);
+                var username = authenticatedUserService.GetAuthenticatedUsername();
+                await Clients.Client(activeUsers[userId]).SendAsync("ReceiveMessage", Storedmessage, username);
             }
         }
 

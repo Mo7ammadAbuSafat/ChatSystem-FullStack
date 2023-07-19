@@ -24,14 +24,11 @@ const ChatContextProvider = ({ children }) => {
       })
       .configureLogging(LogLevel.Information)
       .build();
-    connection.on("ReceiveMessage", (receivedMessage) => {
+    connection.on("ReceiveMessage", (receivedMessage, username) => {
       const currentSelectedUser = selectedUserRef.current;
       currentSelectedUser && receivedMessage.senderId === currentSelectedUser.id
         ? setMessages((messages) => [...messages, receivedMessage])
-        : openAlert(
-            "success",
-            `you received a message from ${receivedMessage.senderId}`
-          );
+        : openAlert("success", `you received a message from ${username}`);
     });
     connection.on("ReceiveActiveUsers", (newActiveUsers) => {
       setActiveUsers(newActiveUsers);
