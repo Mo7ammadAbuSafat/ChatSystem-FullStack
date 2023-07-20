@@ -1,4 +1,5 @@
 ﻿using PersistenceLayer.Entities;
+using PersistenceLayer.RetrievalModels;
 
 namespace PersistenceLayer.Repositories.Interfaces
 {
@@ -11,5 +12,7 @@ namespace PersistenceLayer.Repositories.Interfaces
             int pageSize,
             int firstUserId,
             int secoundUserId);
+
+        Task<IEnumerable<ChatWithLastMessage>> GetRecentChatsForUser(int userId);
     }
 }

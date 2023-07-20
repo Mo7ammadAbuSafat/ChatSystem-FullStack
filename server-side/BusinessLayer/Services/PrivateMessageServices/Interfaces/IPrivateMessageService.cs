@@ -1,4 +1,5 @@
-﻿using BusinessLayer.DTOs.MessageDtos;
+﻿using BusinessLayer.DTOs.ChatDtos;
+using BusinessLayer.DTOs.MessageDtos;
 
 namespace BusinessLayer.Services.PrivateMessageServices.Interfaces
 {
@@ -10,5 +11,6 @@ namespace BusinessLayer.Services.PrivateMessageServices.Interfaces
             int pageSize,
             int firstUserId,
             int secoundUserId);
+        Task<IEnumerable<ChatWithLastMessageResponseDto>> GetRecentChatsForUser(int userId);
     }
 }

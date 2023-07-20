@@ -2,6 +2,7 @@
 using PersistenceLayer.DbContexts;
 using PersistenceLayer.Entities;
 using PersistenceLayer.Repositories.Interfaces;
+using PersistenceLayer.RetrievalModels;
 
 namespace PersistenceLayer.Repositories.Implementations
 {
@@ -43,6 +44,22 @@ namespace PersistenceLayer.Repositories.Implementations
                 .ToListAsync();
             var result = Tuple.Create(messagesList, isThereMore);
             return result;
+        }
+
+        public async Task<IEnumerable<ChatWithLastMessage>> GetRecentChatsForUser(int userId)
+        {
+            var recentChatsWithLastMessages = await context.PrivateMessages
+                .Where(m => m.SenderId == userId || m.ReceiverId == userId)
+                .GroupBy(m => m.SenderId == userId ? m.ReceiverId : m.SenderId)
+                .OrderByDescending(g => g.Max(m => m.CreationDate))
+                .Take(10)
+                .Select(g => new ChatWithLastMessage
+                {
+                    User = context.Users.Where(u => u.Id == g.Key).Include(u => u.Image).First(),
+                    LastMessage = g.OrderByDescending(msg => msg.CreationDate).First()
+                })
+                .ToListAsync();
+            return recentChatsWithLastMessages;
         }
 
     }

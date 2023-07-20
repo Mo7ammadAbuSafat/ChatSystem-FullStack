@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.DTOs.ChatDtos;
 using BusinessLayer.DTOs.MessageDtos;
 using BusinessLayer.ExceptionMessages;
 using BusinessLayer.Exceptions;
@@ -68,6 +69,7 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
             {
                 throw new UnauthorizedException();
             }
+            await privateMessageRepository.GetRecentChatsForUser(authenticatedUserId);
             if (pageDate == null)
             {
                 pageDate = DateTime.Now;
@@ -79,6 +81,18 @@ namespace BusinessLayer.Services.PrivateMessageServices.Implementations
                 IsThereMore = queryResult.Item2
             };
             return result;
+        }
+
+        public async Task<IEnumerable<ChatWithLastMessageResponseDto>> GetRecentChatsForUser(int userId)
+        {
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
+            if (authenticatedUserId != userId)
+            {
+                throw new UnauthorizedException();
+            }
+            var queryResult = await privateMessageRepository.GetRecentChatsForUser(userId);
+
+            return mapper.Map<IEnumerable<ChatWithLastMessageResponseDto>>(queryResult);
         }
     }
 }
