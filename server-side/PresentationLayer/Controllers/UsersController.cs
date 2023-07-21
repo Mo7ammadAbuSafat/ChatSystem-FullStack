@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Services.UserService.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationLayer.Controllers
@@ -14,7 +15,7 @@ namespace PresentationLayer.Controllers
             this.userRetrievalService = userRetrievalService;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUsers(
             int pageNumber = 1,
@@ -23,6 +24,14 @@ namespace PresentationLayer.Controllers
         {
             var users = await userRetrievalService.GetUsers(pageNumber, pageSize, searchText);
             return Ok(users);
+        }
+
+        [Authorize]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+            var user = await userRetrievalService.GetUserById(userId);
+            return Ok(user);
         }
     }
 }

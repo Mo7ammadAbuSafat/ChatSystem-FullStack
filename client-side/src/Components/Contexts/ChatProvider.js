@@ -16,36 +16,42 @@ const ChatContextProvider = ({ children }) => {
   const { openAlert } = useContext(AlertContext);
   const [isThereMoreMessages, setIsThereMoreMessages] = useState(false);
   const [activeUsers, setActiveUsers] = useState([]);
-
-  const fetch = async () => {
-    const connection = new HubConnectionBuilder()
-      .withUrl("https://localhost:7271/chat", {
-        accessTokenFactory: () => token,
-      })
-      .configureLogging(LogLevel.Information)
-      .build();
-    connection.on("ReceiveMessage", (receivedMessage, username) => {
-      const currentSelectedUser = selectedUserRef.current;
-      currentSelectedUser && receivedMessage.senderId === currentSelectedUser.id
-        ? setMessages((messages) => [...messages, receivedMessage])
-        : openAlert("success", `you received a message from ${username}`);
-    });
-    connection.on("ReceiveActiveUsers", (newActiveUsers) => {
-      setActiveUsers(newActiveUsers);
-    });
-    await connection
-      .start()
-      .then(() => {
-        console.log("SignalR connection started.");
-      })
-      .catch((error) => {
-        console.error("Error starting SignalR connection:", error);
-      });
-
-    setConnectionState(connection);
-  };
+  const [newMessage, setNewMessage] = useState(null);
 
   useEffect(() => {
+    const fetch = async () => {
+      const connection = new HubConnectionBuilder()
+        .withUrl("https://localhost:7271/chat", {
+          accessTokenFactory: () => token,
+        })
+        .configureLogging(LogLevel.Information)
+        .build();
+      connection.on("ReceiveMessage", (receivedMessage, username) => {
+        const currentSelectedUser = selectedUserRef.current;
+        if (
+          currentSelectedUser &&
+          receivedMessage.senderId === currentSelectedUser.id
+        ) {
+          setMessages((messages) => [...messages, receivedMessage]);
+        } else {
+          openAlert("success", `you received a message from ${username}`);
+          setNewMessage(receivedMessage);
+        }
+      });
+      connection.on("ReceiveActiveUsers", (newActiveUsers) => {
+        setActiveUsers(newActiveUsers);
+      });
+      await connection
+        .start()
+        .then(() => {
+          console.log("SignalR connection started.");
+        })
+        .catch((error) => {
+          console.error("Error starting SignalR connection:", error);
+        });
+
+      setConnectionState(connection);
+    };
     fetch();
   }, []);
 
@@ -88,6 +94,7 @@ const ChatContextProvider = ({ children }) => {
         textBody: message,
       };
       setMessages([...messages, newMessage]);
+      setNewMessage(newMessage);
       await connectionState
         .invoke("SendMessageToUser", selectedUser.id, message)
         .catch((error) => {
@@ -106,6 +113,7 @@ const ChatContextProvider = ({ children }) => {
         isThereMoreMessages,
         loadMessages,
         activeUsers,
+        newMessage,
       }}
     >
       {children}

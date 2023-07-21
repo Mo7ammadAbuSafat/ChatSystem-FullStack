@@ -36,5 +36,15 @@ namespace BusinessLayer.Services.UserService.Implementations
             };
             return response;
         }
+
+        public async Task<UserResponseDto> GetUserById(int userId)
+        {
+            var user = await userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                throw new NotFoundException(UserExceptionMessages.NotFoundUserById);
+            }
+            return mapper.Map<UserResponseDto>(user);
+        }
     }
 }
