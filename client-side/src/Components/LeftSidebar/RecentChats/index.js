@@ -37,20 +37,46 @@ const RecentChats = () => {
   }, [token, user]);
 
   useEffect(() => {
-    if (newMessage) {
+    const fetchData = async () => {
       const { senderId, receiverId } = newMessage;
       const chatUserId = senderId === user.id ? receiverId : senderId;
       const chatIndex = chats.findIndex((chat) => chat.user.id === chatUserId);
-
+      const updatedChats = [...chats];
       if (chatIndex !== -1) {
-        const updatedChats = [...chats];
-        const newChat = { ...updatedChats[chatIndex], lastMessage: newMessage };
+        const newChat = {
+          ...updatedChats[chatIndex],
+          lastMessage: newMessage,
+        };
         updatedChats.splice(chatIndex, 1);
         updatedChats.unshift(newChat);
-        setChats(updatedChats);
+      } else {
+        const chatUser = await getUserById(chatUserId);
+        const newChat = { user: chatUser, lastMessage: newMessage };
+        updatedChats.unshift(newChat);
       }
+      setChats(updatedChats);
+    };
+    if (newMessage) {
+      fetchData();
     }
-  }, [newMessage, chats, user.id]);
+  }, [newMessage, user.id]);
+
+  const getUserById = async (userId) => {
+    var newUser;
+    await axios
+      .get(`https://localhost:7271/api/users/${userId}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        newUser = response.data;
+      });
+
+    return newUser;
+  };
 
   return isLoading ? (
     <Box flex={4}>
