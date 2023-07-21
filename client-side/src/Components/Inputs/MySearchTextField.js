@@ -18,7 +18,7 @@ const StyledPaper = styled(Paper)({
 
 const MySearchTextField = ({ value, onChange, placeholder }) => {
   return (
-    <StyledPaper component="form">
+    <StyledPaper>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder={placeholder}

@@ -20,9 +20,8 @@ const RightSidebar = () => {
   const [searchText, setSearchText] = useState("");
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useContext(AuthContext);
+  const { token, user: authUser } = useContext(AuthContext);
   const { setSelectedUser } = useContext(ChatContext);
-  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +75,7 @@ const RightSidebar = () => {
                 justifyContent={"space-between"}
               >
                 <UserCard user={user} size="large" />
-                {user.id !== authContext.user.id && (
+                {user.id !== authUser.id && (
                   <Tooltip title="start a chat" arrow>
                     <IconButton onClick={() => setSelectedUser(user)}>
                       <ChatIcon sx={{ color: "#03AC1390" }} />
