@@ -10,7 +10,7 @@ const RightItem = ({ children }) => {
       sx={{
         padding: "15px 10px",
         height: "100vh",
-        display: { xs: "none", sm: "none", md: "block" },
+        display: { xs: "none", lg: "block" },
         overflowY: "auto",
         backgroundColor: "#f7f7f7",
       }}
