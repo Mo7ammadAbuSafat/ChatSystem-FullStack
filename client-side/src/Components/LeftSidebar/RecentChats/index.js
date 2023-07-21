@@ -11,7 +11,7 @@ import {
 import { ChatContext } from "../../Contexts/ChatProvider";
 import ChatCard from "./ChatCard";
 
-const RecentChats = () => {
+const RecentChats = ({ displayState }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
   const { token, user } = useContext(AuthContext);
@@ -88,6 +88,7 @@ const RecentChats = () => {
         "&& .Mui-selected": {
           backgroundColor: "#75757520",
         },
+        display: displayState ? "none" : "block",
       }}
     >
       {chats.map((chat, index) => {

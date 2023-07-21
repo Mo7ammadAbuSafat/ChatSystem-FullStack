@@ -13,7 +13,6 @@ const StyledMessagesContainer = styled(Stack)({
   height: "calc(100vh - 200px)",
   overflowY: "auto",
   alignItems: "baseline",
-  padding: "10px 5px",
   scrollbarWidth: "thin",
   "&::-webkit-scrollbar": {
     width: "0.3em",
@@ -76,6 +75,7 @@ const Chat = () => {
       <ChatHeader />
       <Divider sx={{ marginTop: "15px" }} />
       <StyledMessagesContainer
+        p={{ sm: "10px 5px", md: "10px 15px" }}
         ref={messagesContainerRef}
         spacing={0.5}
         onScroll={handleScrollChange}

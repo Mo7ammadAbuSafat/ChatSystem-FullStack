@@ -4,20 +4,18 @@ import {
   IconButton,
   Stack,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import AuthContext from "../Contexts/AuthProvider";
 import UserCard from "../UserCard";
 import ChatIcon from "@mui/icons-material/Chat";
-import { ChatContext } from "../Contexts/ChatProvider";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
-import MySearchTextField from "../Inputs/MySearchTextField";
+import AuthContext from "../Contexts/AuthProvider";
+import { ChatContext } from "../Contexts/ChatProvider";
 
-const RightSidebar = () => {
-  const [pageNumber, setPageNumber] = useState(1);
+const SearchResult = ({ pageNumber, setPageNumber, searchText }) => {
   const [numOfPages, setNumOfPages] = useState(1);
-  const [searchText, setSearchText] = useState("");
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { token, user: authUser } = useContext(AuthContext);
@@ -47,25 +45,16 @@ const RightSidebar = () => {
     fetchData();
   }, [pageNumber, searchText, token]);
 
-  const onSearchTextChange = (event) => {
-    setPageNumber(1);
-    const value = event.target.value;
-    setSearchText(value);
-  };
-
   return (
-    <Stack alignItems={"center"} paddingTop={"10px"}>
-      <MySearchTextField
-        value={searchText}
-        onChange={onSearchTextChange}
-        placeholder={"search people"}
-      />
+    <>
       {isLoading && pageNumber === 1 ? (
         <Box flex={4}>
           <CircularProgress color="inherit" size={16} />
         </Box>
+      ) : users.length === 0 ? (
+        <Typography margin={"10px auto"}>no result</Typography>
       ) : (
-        <Stack spacing={3} width={"85%"} marginTop={"15px"}>
+        <Stack spacing={3} width={"100%"} p={2}>
           {users.map((user, index) => {
             return (
               <Stack
@@ -74,7 +63,7 @@ const RightSidebar = () => {
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
-                <UserCard user={user} size="large" />
+                <UserCard user={user} />
                 {user.id !== authUser.id && (
                   <Tooltip title="start a chat" arrow>
                     <IconButton onClick={() => setSelectedUser(user)}>
@@ -97,8 +86,8 @@ const RightSidebar = () => {
             ))}
         </Stack>
       )}
-    </Stack>
+    </>
   );
 };
 
-export default RightSidebar;
+export default SearchResult;
