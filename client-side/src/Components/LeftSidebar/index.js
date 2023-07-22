@@ -1,14 +1,36 @@
 import { Divider, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import LeftSidebarHeader from "./Header";
 import RecentChats from "./RecentChats";
+import MySearchTextField from "../Inputs/MySearchTextField";
+import SearchResult from "./SearchResult";
 
 const LeftSidebar = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const onSearchTextChange = (event) => {
+    setPageNumber(1);
+    const value = event.target.value;
+    setSearchText(value);
+  };
   return (
     <Stack>
       <LeftSidebarHeader />
       <Divider />
-      <RecentChats />
+      <MySearchTextField
+        value={searchText}
+        onChange={onSearchTextChange}
+        placeholder={"search people"}
+      />
+      <RecentChats displayState={searchText !== ""} />
+      {searchText !== "" && (
+        <SearchResult
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
+          searchText={searchText}
+        />
+      )}
     </Stack>
   );
 };

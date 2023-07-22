@@ -10,7 +10,7 @@ const StyledPaper = styled(Paper)({
   display: "flex",
   alignItems: "center",
   width: "90%",
-  margin: "15px auto",
+  margin: "15px auto 5px auto",
   borderRadius: "20px",
   boxShadow: "none",
   border: "0.5px solid #eae5e5",
