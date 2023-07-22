@@ -6,7 +6,7 @@ import { ChatContext } from "../Contexts/ChatProvider";
 import HiddenSidebar from "../LeftSidebar/HiddenSidebar";
 
 const ChatHeader = () => {
-  const { selectedUser, setSelectedUser } = useContext(ChatContext);
+  const { selectedUser } = useContext(ChatContext);
   return (
     <Stack direction={"row"} justifyContent={"space-between"}>
       <Stack direction={"row"} spacing={2}>
