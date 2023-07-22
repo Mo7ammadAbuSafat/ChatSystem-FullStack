@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { ChatContext } from "../Contexts/ChatProvider";
-import { Stack } from "@mui/material";
+import { Stack, Tooltip } from "@mui/material";
 import AuthContext from "../Contexts/AuthProvider";
+import GetTime from "../Utils/GetTime";
 
 const ChatMessages = () => {
   const { messages } = useContext(ChatContext);
@@ -11,27 +12,35 @@ const ChatMessages = () => {
       {messages.map((message, index) => {
         var messageType = message.senderId === user.id ? "sended" : "received";
         return messageType === "sended" ? (
-          <Stack
-            key={index}
-            color={"white"}
-            bgcolor={"#03AC13"}
-            p={1}
-            borderRadius={"15px"}
-            alignSelf={"end"}
-            maxWidth={"80%"}
-          >
-            {message.textBody}
-          </Stack>
+          <Tooltip title={GetTime(message.creationDate)} placement="left" arrow>
+            <Stack
+              key={index}
+              color={"white"}
+              bgcolor={"#03AC13"}
+              p={1}
+              borderRadius={"15px"}
+              alignSelf={"end"}
+              maxWidth={"80%"}
+            >
+              {message.textBody}
+            </Stack>
+          </Tooltip>
         ) : (
-          <Stack
-            key={index}
-            bgcolor={"#75757550"}
-            p={1}
-            borderRadius={"15px"}
-            alignSelf={"start"}
+          <Tooltip
+            title={GetTime(message.creationDate)}
+            placement="right"
+            arrow
           >
-            {message.textBody}
-          </Stack>
+            <Stack
+              key={index}
+              bgcolor={"#75757550"}
+              p={1}
+              borderRadius={"15px"}
+              alignSelf={"start"}
+            >
+              {message.textBody}
+            </Stack>
+          </Tooltip>
         );
       })}
     </>

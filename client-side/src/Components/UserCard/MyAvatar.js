@@ -1,8 +1,19 @@
 import styled from "@emotion/styled";
-import { Avatar } from "@mui/material";
-import React from "react";
+import { Avatar, Badge } from "@mui/material";
+import React, { useContext } from "react";
+import { ChatContext } from "../Contexts/ChatProvider";
 
-const MyAvatar = ({ size, src }) => {
+const StyledBadge = styled(Badge)({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px white`,
+  },
+});
+
+const MyAvatar = ({ size, user }) => {
+  const { activeUsers } = useContext(ChatContext);
+
   const avatarDimensions =
     size === "small"
       ? "30px"
@@ -17,7 +28,18 @@ const MyAvatar = ({ size, src }) => {
     width: avatarDimensions,
     height: avatarDimensions,
   });
-  return <StyledAvatar src={src} />;
+
+  return activeUsers.includes(user.id) ? (
+    <StyledBadge
+      overlap="circular"
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      variant="dot"
+    >
+      <StyledAvatar src={user.image?.imagePath} />
+    </StyledBadge>
+  ) : (
+    <StyledAvatar src={user.image?.imagePath} />
+  );
 };
 
 export default MyAvatar;

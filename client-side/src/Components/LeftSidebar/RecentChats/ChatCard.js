@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 import MyAvatar from "../../UserCard/MyAvatar";
-import GetTime from "../../Utils/GetTime";
+import { GetShortTime } from "../../Utils/GetTime";
 import styled from "@emotion/styled";
 
 const StyledTypography = styled(Typography)({
@@ -25,14 +25,14 @@ const ChatCard = ({ chat }) => {
       height={"60px"}
     >
       <Stack direction={"row"} spacing={2} alignItems={"center"}>
-        <MyAvatar src={chat.user.image?.imagePath} />
+        <MyAvatar user={chat.user} />
         <Stack>
           <StyledTypography variant="h6">{chat.user.username}</StyledTypography>
           <StyledTypography2>{chat.lastMessage.textBody}</StyledTypography2>
         </Stack>
       </Stack>
       <StyledTypography2>
-        {GetTime(chat.lastMessage.creationDate)}
+        {GetShortTime(chat.lastMessage.creationDate)}
       </StyledTypography2>
     </Stack>
   );
