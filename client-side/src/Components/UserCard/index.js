@@ -1,8 +1,7 @@
-import { Badge, Stack, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import { Stack, Typography } from "@mui/material";
+import React from "react";
 import MyAvatar from "./MyAvatar";
 import styled from "@emotion/styled";
-import { ChatContext } from "../Contexts/ChatProvider";
 
 const UserCard = ({ size, textColor = "#757575", user }) => {
   const StyledTypography = styled(Typography)({
