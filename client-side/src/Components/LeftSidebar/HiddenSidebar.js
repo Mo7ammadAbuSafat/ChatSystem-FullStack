@@ -13,7 +13,7 @@ const HiddenSidebar = () => {
   return (
     <Stack display={{ xs: "flex", md: "none" }} justifyContent={"center"}>
       <IconButton onClick={() => toggleDrawer(true)} sx={{ padding: 0 }}>
-        <MenuIcon sx={{ color: "#03AC13", fontSize: "30px" }} />
+        <MenuIcon sx={{ color: "#03AC13", fontSize: "25px" }} />
       </IconButton>
       <Drawer
         open={drawerState}

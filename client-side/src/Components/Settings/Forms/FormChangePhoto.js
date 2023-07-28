@@ -6,6 +6,7 @@ import axios from "axios";
 import AuthContext from "../../Contexts/AuthProvider";
 import AlertContext from "../../Contexts/AlertProvider";
 import ButtonWithLoading from "../../Buttons/ButtonWithLoading";
+import MyInputFile from "../../Inputs/MyInputFile";
 
 const FormChangePhoto = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -129,11 +130,11 @@ const FormChangePhoto = () => {
     setIsLoading2(false);
   };
   return (
-    <Stack spacing={3} alignItems={"center"} p={2}>
+    <Stack spacing={3} alignItems={"center"} height={"330px"}>
       <img
         style={{ borderRadius: "50%", objectFit: "cover" }}
-        width={"250px"}
-        height={"250px"}
+        width={"150px"}
+        height={"150px"}
         alt=""
         src={
           imageReview !== null
@@ -144,13 +145,8 @@ const FormChangePhoto = () => {
             : "/Assets/defaultAvatar.png"
         }
       />
-      <input type="file" onChange={handleFileChange} />
-      <Stack
-        direction={"row"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        spacing={2}
-      >
+      <MyInputFile onChange={handleFileChange} />
+      <Stack spacing={2} width={"100%"}>
         <ButtonWithLoading
           onClick={onDelete}
           isLoading={isLoading2}

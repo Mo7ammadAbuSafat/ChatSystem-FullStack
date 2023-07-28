@@ -5,7 +5,7 @@ import AuthContext from "../../Contexts/AuthProvider";
 import UserCard from "../../UserCard";
 import ClickMenu from "../../ClickMenu";
 import PopupModal from "../../PopupModal";
-import FormChangePhoto from "./FormChangePhoto";
+import AccountSettings from "../../Settings";
 
 const LeftSidebarHeader = () => {
   const { user, logout } = useContext(AuthContext);
@@ -18,13 +18,13 @@ const LeftSidebarHeader = () => {
     setAnchorEl(null);
   };
 
-  const [openChangePhotoPopup, setOpenChangePhotoPopup] = useState(false);
-  const handleChangePhotoClick = () => {
-    setOpenChangePhotoPopup(true);
+  const [openSettingsPopup, setOpenSettingsPopup] = useState(false);
+  const handleSettingsClick = () => {
+    setOpenSettingsPopup(true);
     handleCloseMenu();
   };
-  const handleClosChangePhotoPopup = () => {
-    setOpenChangePhotoPopup(false);
+  const handleClosSettingsPopup = () => {
+    setOpenSettingsPopup(false);
   };
 
   return (
@@ -40,11 +40,11 @@ const LeftSidebarHeader = () => {
         handleClose={handleCloseMenu}
         anchorEl={anchorEl}
       >
-        <MenuItem onClick={handleChangePhotoClick}>
+        <MenuItem onClick={handleSettingsClick}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
-          change photo
+          Settings
         </MenuItem>
         <MenuItem onClick={logout}>
           <ListItemIcon>
@@ -54,12 +54,12 @@ const LeftSidebarHeader = () => {
         </MenuItem>
       </ClickMenu>
       <PopupModal
-        name={"Change Photo"}
-        open={openChangePhotoPopup}
-        fullWidth={false}
-        handleClose={handleClosChangePhotoPopup}
+        name={"Settings"}
+        open={openSettingsPopup}
+        fullWidth={true}
+        handleClose={handleClosSettingsPopup}
       >
-        <FormChangePhoto />
+        <AccountSettings />
       </PopupModal>
     </Stack>
   );

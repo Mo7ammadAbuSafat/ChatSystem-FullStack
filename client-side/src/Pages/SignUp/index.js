@@ -57,7 +57,6 @@ const SignUpPage = () => {
       }
     }
 
-    // Update the state with the new validation errors and inputs
     setValidationErrors(validationErrorsCopy);
     setInputs({ ...inputs, [name]: value });
   };

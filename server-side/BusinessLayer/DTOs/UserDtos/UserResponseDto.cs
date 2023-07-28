@@ -6,6 +6,7 @@ namespace BusinessLayer.DTOs.UserDtos
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
+        public string About { get; set; } = string.Empty;
         public ImageResponseDto Image { get; set; }
     }
 }

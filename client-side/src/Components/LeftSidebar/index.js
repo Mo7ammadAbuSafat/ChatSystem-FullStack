@@ -8,7 +8,6 @@ import SearchResult from "./SearchResult";
 const LeftSidebar = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const onSearchTextChange = (event) => {
     setPageNumber(1);
     const value = event.target.value;

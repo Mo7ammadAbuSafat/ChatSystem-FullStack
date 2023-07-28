@@ -1,23 +1,24 @@
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React, { useContext } from "react";
 import UserCard from "../UserCard";
-import InfoIcon from "@mui/icons-material/Info";
 import { ChatContext } from "../Contexts/ChatProvider";
 import HiddenSidebar from "../LeftSidebar/HiddenSidebar";
+import HiddenUserInformation from "../UserInformation";
 
 const ChatHeader = () => {
   const { selectedUser } = useContext(ChatContext);
   return (
     <Stack direction={"row"} justifyContent={"space-between"}>
-      <Stack direction={"row"} spacing={2}>
+      <Stack direction={"row"} spacing={1}>
         <HiddenSidebar />
-        <UserCard user={selectedUser} />
+        <Box display={{ xs: "none", sm: "flex" }}>
+          <UserCard user={selectedUser} />
+        </Box>
+        <Box display={{ xs: "flex", sm: "none" }}>
+          <UserCard user={selectedUser} size="medium" />
+        </Box>
       </Stack>
-      <Box display={{ xs: "none", sm: "flex" }}>
-        <IconButton type="button" sx={{ p: "10px" }} disabled>
-          <InfoIcon sx={{ color: "#03AC1390", fontSize: "30px" }} />
-        </IconButton>
-      </Box>
+      <HiddenUserInformation />
     </Stack>
   );
 };
