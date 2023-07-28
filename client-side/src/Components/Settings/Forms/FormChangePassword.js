@@ -105,7 +105,7 @@ const FormChangePassword = () => {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} height={"330px"}>
       <MyPasswordInputField
         name={"oldPassword"}
         label={"Old Password"}

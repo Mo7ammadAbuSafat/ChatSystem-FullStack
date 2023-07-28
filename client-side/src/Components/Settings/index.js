@@ -20,9 +20,9 @@ const AccountSettings = () => {
       <TabContext value={tabValue}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleTabChange} aria-label="lab API tabs example">
-            <Tab label="Basic" value="1" />
-            <Tab label="security" value="2" />
-            <Tab label="profile photo" value="3" />
+            <Tab label="about" value="1" />
+            <Tab label="password" value="2" />
+            <Tab label="photo" value="3" />
           </TabList>
         </Box>
         <TabPanel value="1" sx={{ width: "100%", marginTop: "10px" }}>

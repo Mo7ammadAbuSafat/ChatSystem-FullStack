@@ -46,7 +46,7 @@ const FormChangeAbout = () => {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} height={"330px"}>
       <MyTextField disabled value={user.username} />
       <ReactQuill
         value={about}
