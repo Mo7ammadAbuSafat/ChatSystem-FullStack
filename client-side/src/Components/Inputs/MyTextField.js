@@ -6,7 +6,14 @@ const StyledTextField = styled(TextField)({
   width: "100%",
 });
 
-const MyTextField = ({ name, label, value, onChange, validation }) => {
+const MyTextField = ({
+  name,
+  label,
+  value,
+  onChange,
+  validation,
+  disabled = false,
+}) => {
   return (
     <StyledTextField
       label={label}
@@ -17,6 +24,7 @@ const MyTextField = ({ name, label, value, onChange, validation }) => {
       value={value}
       helperText={validation}
       error={validation !== " "}
+      disabled={disabled}
     />
   );
 };

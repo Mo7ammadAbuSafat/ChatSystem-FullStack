@@ -29,7 +29,7 @@ const PopupModal = ({ name, handleClose, open, fullWidth, children }) => {
   return (
     <Dialog
       fullWidth={fullWidth}
-      maxWidth={"md"}
+      maxWidth={"sm"}
       open={open}
       onClose={handleClose}
     >
