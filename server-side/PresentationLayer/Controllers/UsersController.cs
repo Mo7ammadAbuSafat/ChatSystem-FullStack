@@ -43,7 +43,15 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> ChangePassword([FromRoute] int userId, [FromBody] ChangePasswordRequestDto changePasswordDto)
         {
             await userAccountService.ChangePasswordAsync(userId, changePasswordDto);
-            return Ok("success");
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut("{userId}/about")]
+        public async Task<IActionResult> ChangeUserAbout([FromRoute] int userId, [FromQuery] string newAbout)
+        {
+            await userAccountService.ChangeUserAboutAsync(userId, newAbout);
+            return NoContent();
         }
     }
 }

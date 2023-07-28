@@ -90,5 +90,21 @@ namespace BusinessLayer.Services.UserService.Implementations
             user.PasswordSalt = passwordSalt;
             await unitOfWork.SaveChangesAsync();
         }
+
+        public async Task ChangeUserAboutAsync(int userId, string newAbout)
+        {
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
+            if (authenticatedUserId != userId)
+            {
+                throw new UnauthorizedException();
+            }
+            var user = await userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                throw new NotFoundException(UserExceptionMessages.NotFoundUserById);
+            }
+            user.About = newAbout;
+            await unitOfWork.SaveChangesAsync();
+        }
     }
 }
