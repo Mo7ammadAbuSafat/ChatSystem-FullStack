@@ -1,4 +1,4 @@
-import { IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import React, { useContext } from "react";
 import UserCard from "../UserCard";
 import InfoIcon from "@mui/icons-material/Info";
@@ -13,9 +13,11 @@ const ChatHeader = () => {
         <HiddenSidebar />
         <UserCard user={selectedUser} />
       </Stack>
-      <IconButton type="button" sx={{ p: "10px" }} disabled>
-        <InfoIcon sx={{ color: "#03AC1390", fontSize: "30px" }} />
-      </IconButton>
+      <Box display={{ xs: "none", sm: "flex" }}>
+        <IconButton type="button" sx={{ p: "10px" }} disabled>
+          <InfoIcon sx={{ color: "#03AC1390", fontSize: "30px" }} />
+        </IconButton>
+      </Box>
     </Stack>
   );
 };
