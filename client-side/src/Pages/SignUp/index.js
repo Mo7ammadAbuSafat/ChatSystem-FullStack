@@ -32,13 +32,33 @@ const SignUpPage = () => {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    value === ""
-      ? setValidationErrors({
-          ...validationErrors,
-          [name]: "you must fill this field",
-        })
-      : setValidationErrors({ ...validationErrors, [name]: " " });
+    const validationErrorsCopy = { ...validationErrors };
 
+    if (name === "username") {
+      const usernameRegex = /^[A-Za-z][A-Za-z0-9_]{4,17}$/;
+      if (!value) {
+        validationErrorsCopy[name] = "you must fill this field.";
+      } else if (!usernameRegex.test(value)) {
+        validationErrorsCopy[name] =
+          "please use letters, numbers, or underscores. [5-18] char.";
+      } else {
+        validationErrorsCopy[name] = " ";
+      }
+    }
+
+    if (name === "password") {
+      if (!value) {
+        validationErrorsCopy[name] = "you must fill this field.";
+      } else if (value.length < 8) {
+        validationErrorsCopy[name] =
+          "password must be at least 8 characters long.";
+      } else {
+        validationErrorsCopy[name] = " ";
+      }
+    }
+
+    // Update the state with the new validation errors and inputs
+    setValidationErrors(validationErrorsCopy);
     setInputs({ ...inputs, [name]: value });
   };
 
