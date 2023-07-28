@@ -6,13 +6,20 @@ import styled from "@emotion/styled";
 
 const StyledTypography = styled(Typography)({
   color: "#5a5858",
-  fontSize: "16px",
   fontWeight: "bold",
 });
 
 const StyledTypography2 = styled(Typography)({
   color: "#757575",
+});
+
+const StyledTypography3 = styled(Typography)({
+  color: "#757575",
   fontSize: "14px",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  maxWidth: "80%",
 });
 
 const ChatCard = ({ chat }) => {
@@ -24,14 +31,16 @@ const ChatCard = ({ chat }) => {
       width={"100%"}
       height={"60px"}
     >
-      <Stack direction={"row"} spacing={2} alignItems={"center"}>
+      <Stack direction={"row"} spacing={2} alignItems={"center"} width={"80%"}>
         <MyAvatar user={chat.user} />
-        <Stack>
-          <StyledTypography variant="h6">{chat.user.username}</StyledTypography>
-          <StyledTypography2>{chat.lastMessage.textBody}</StyledTypography2>
+        <Stack width={"80%"}>
+          <StyledTypography variant="h6" fontSize={{ xs: "14px", md: "16px" }}>
+            {chat.user.username}
+          </StyledTypography>
+          <StyledTypography3>{chat.lastMessage.textBody}</StyledTypography3>
         </Stack>
       </Stack>
-      <StyledTypography2>
+      <StyledTypography2 fontSize={{ xs: "10px", md: "14px" }}>
         {GetShortTime(chat.lastMessage.creationDate)}
       </StyledTypography2>
     </Stack>

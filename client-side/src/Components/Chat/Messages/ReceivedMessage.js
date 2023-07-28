@@ -11,7 +11,7 @@ const ReceivedMessage = ({ message, index }) => {
         borderRadius={"15px"}
         bgcolor={"#75757550"}
         alignSelf={"start"}
-        maxWidth={"80%"}
+        maxWidth={{ xs: "270px", sm: "400px", md: "500px", lg: "700px" }}
         sx={{
           wordWrap: "break-word",
           overflowWrap: "break-word",

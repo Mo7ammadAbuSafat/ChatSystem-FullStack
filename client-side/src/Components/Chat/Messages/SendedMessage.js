@@ -12,7 +12,7 @@ const SendedMessage = ({ message, index }) => {
         color={"white"}
         bgcolor={"#03AC13"}
         alignSelf={"end"}
-        maxWidth={"80%"}
+        maxWidth={{ xs: "270px", sm: "400px", md: "500px", lg: "700px" }}
         sx={{
           wordWrap: "break-word",
           overflowWrap: "break-word",
