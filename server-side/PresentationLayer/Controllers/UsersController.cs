@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Services.UserService.Interfaces;
+﻿using BusinessLayer.DTOs.UserDtos;
+using BusinessLayer.Services.UserService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,13 @@ namespace PresentationLayer.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRetrievalService userRetrievalService;
+        private readonly IUserAccountService userAccountService;
 
-        public UsersController(IUserRetrievalService userRetrievalService)
+
+        public UsersController(IUserRetrievalService userRetrievalService, IUserAccountService userAccountService)
         {
             this.userRetrievalService = userRetrievalService;
+            this.userAccountService = userAccountService;
         }
 
         [Authorize]
@@ -32,6 +36,14 @@ namespace PresentationLayer.Controllers
         {
             var user = await userRetrievalService.GetUserById(userId);
             return Ok(user);
+        }
+
+        [Authorize]
+        [HttpPut("{userId}/change-password")]
+        public async Task<IActionResult> ChangePassword([FromRoute] int userId, [FromBody] ChangePasswordRequestDto changePasswordDto)
+        {
+            await userAccountService.ChangePasswordAsync(userId, changePasswordDto);
+            return Ok("success");
         }
     }
 }

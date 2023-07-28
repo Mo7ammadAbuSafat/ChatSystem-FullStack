@@ -68,5 +68,27 @@ namespace BusinessLayer.Services.UserService.Implementations
             var user = await userRepository.GetUserById(userId);
             return mapper.Map<UserResponseDto>(user);
         }
+
+        public async Task ChangePasswordAsync(int userId, ChangePasswordRequestDto changePasswordDto)
+        {
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
+            if (authenticatedUserId != userId)
+            {
+                throw new UnauthorizedException();
+            }
+            var user = await userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                throw new NotFoundException(UserExceptionMessages.NotFoundUserById);
+            }
+            if (!PasswordHashing.VerifyPassword(changePasswordDto.OldPassword, user.PasswordHash, user.PasswordSalt))
+            {
+                throw new BadRequestException(UserExceptionMessages.IncorrectPassword);
+            }
+            PasswordHashing.HashPassword(changePasswordDto.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            await unitOfWork.SaveChangesAsync();
+        }
     }
 }
