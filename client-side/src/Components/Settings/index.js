@@ -7,6 +7,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import FormChangePhoto from "./Forms/FormChangePhoto";
 import FormChangeAbout from "./Forms/FormChangeAbout";
+import FormChangePassword from "./Forms/FormChangePassword";
 
 const AccountSettings = () => {
   const [tabValue, setTabValue] = useState("1");
@@ -27,10 +28,9 @@ const AccountSettings = () => {
         <TabPanel value="1" sx={{ width: "100%", marginTop: "10px" }}>
           <FormChangeAbout />
         </TabPanel>
-        <TabPanel
-          value="2"
-          sx={{ width: "100%", marginTop: "10px" }}
-        ></TabPanel>
+        <TabPanel value="2" sx={{ width: "100%", marginTop: "10px" }}>
+          <FormChangePassword />
+        </TabPanel>
         <TabPanel value="3" sx={{ width: "100%", marginTop: "10px" }}>
           <FormChangePhoto />
         </TabPanel>
