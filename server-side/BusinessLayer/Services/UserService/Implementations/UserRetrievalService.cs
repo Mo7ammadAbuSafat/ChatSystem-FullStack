@@ -23,6 +23,10 @@ namespace BusinessLayer.Services.UserService.Implementations
             int pageSize,
             string searchText = null)
         {
+            if (searchText != null)
+            {
+                searchText = searchText.Trim().ToLower();
+            }
             var result = await userRepository.GetUsers(pageNumber, pageSize, searchText);
             if (result == null)
             {

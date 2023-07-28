@@ -38,7 +38,7 @@ namespace BusinessLayer.Services.UserService.Implementations
             PasswordHashing.HashPassword(userRequestDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var user = new User()
             {
-                Username = userRequestDto.Username,
+                Username = userRequestDto.Username.ToLower(),
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
             };
@@ -49,7 +49,7 @@ namespace BusinessLayer.Services.UserService.Implementations
 
         public async Task<string> LoginUserAsync(UserRequestDto userRequestDto)
         {
-            var user = await userRepository.GetUserByUsername(userRequestDto.Username);
+            var user = await userRepository.GetUserByUsername(userRequestDto.Username.ToLower());
             if (user == null)
             {
                 throw new NotFoundException(UserExceptionMessages.NotFoundUserByUsername);
