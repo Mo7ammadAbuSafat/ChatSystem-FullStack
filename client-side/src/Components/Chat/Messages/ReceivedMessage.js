@@ -7,12 +7,15 @@ const ReceivedMessage = ({ message, index }) => {
     <Tooltip title={GetTime(message.creationDate)} placement="left" arrow>
       <Stack
         key={index}
-        color={"white"}
-        bgcolor={"#03AC13"}
         p={1}
         borderRadius={"15px"}
-        alignSelf={"end"}
+        bgcolor={"#75757550"}
+        alignSelf={"start"}
         maxWidth={"80%"}
+        sx={{
+          wordWrap: "break-word",
+          overflowWrap: "break-word",
+        }}
       >
         {message.textBody}
       </Stack>

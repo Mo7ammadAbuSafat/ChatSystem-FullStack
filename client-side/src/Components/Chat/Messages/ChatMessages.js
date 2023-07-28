@@ -26,9 +26,9 @@ const ChatMessages = () => {
       {messages.map((message, index) => {
         var messageType = message.senderId === user.id ? "sended" : "received";
         return messageType === "sended" ? (
-          <ReceivedMessage message={message} index={index} />
-        ) : (
           <SendedMessage message={message} index={index} />
+        ) : (
+          <ReceivedMessage message={message} index={index} />
         );
       })}
     </>
