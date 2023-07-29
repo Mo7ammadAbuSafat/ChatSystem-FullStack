@@ -5,16 +5,10 @@ import { GetShortTime } from "../../Utils/GetTime";
 import styled from "@emotion/styled";
 
 const StyledTypography = styled(Typography)({
-  color: "#5a5858",
   fontWeight: "bold",
 });
 
 const StyledTypography2 = styled(Typography)({
-  color: "#757575",
-});
-
-const StyledTypography3 = styled(Typography)({
-  color: "#757575",
   fontSize: "14px",
   overflow: "hidden",
   textOverflow: "ellipsis",
@@ -37,12 +31,12 @@ const ChatCard = ({ chat }) => {
           <StyledTypography variant="h6" fontSize={{ xs: "14px", md: "16px" }}>
             {chat.user.username}
           </StyledTypography>
-          <StyledTypography3>{chat.lastMessage.textBody}</StyledTypography3>
+          <StyledTypography2>{chat.lastMessage.textBody}</StyledTypography2>
         </Stack>
       </Stack>
-      <StyledTypography2 fontSize={{ xs: "10px", md: "14px" }}>
+      <Typography fontSize={{ xs: "10px", md: "14px" }}>
         {GetShortTime(chat.lastMessage.creationDate)}
-      </StyledTypography2>
+      </Typography>
     </Stack>
   );
 };

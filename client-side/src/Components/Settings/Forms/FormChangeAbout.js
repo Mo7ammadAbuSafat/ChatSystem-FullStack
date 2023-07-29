@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import AlertContext from "../../Contexts/AlertProvider";
 import AuthContext from "../../Contexts/AuthProvider";
-import { Stack } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import MyTextField from "../../Inputs/MyTextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -45,8 +45,18 @@ const FormChangeAbout = () => {
     setIsLoading(false);
   };
 
+  const theme = useTheme();
+
   return (
-    <Stack spacing={2} height={"330px"}>
+    <Stack
+      spacing={2}
+      height={"330px"}
+      sx={{
+        "& .ql-toolbar": {
+          backgroundColor: theme.palette.background.paper,
+        },
+      }}
+    >
       <MyTextField disabled value={user.username} />
       <ReactQuill
         value={about}
@@ -58,6 +68,7 @@ const FormChangeAbout = () => {
           marginBottom: "50px",
         }}
       />
+
       <ButtonWithLoading
         onClick={onSubmit}
         isLoading={isLoading}

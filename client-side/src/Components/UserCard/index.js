@@ -3,12 +3,12 @@ import React from "react";
 import MyAvatar from "./MyAvatar";
 import styled from "@emotion/styled";
 
-const UserCard = ({ size, textColor = "#757575", user }) => {
+const UserCard = ({ size, user }) => {
   const isSmallScreen = size === "small" || size === "medium";
 
   const StyledTypography = styled(Typography)({
-    color: textColor,
-    fontSize: isSmallScreen ? "14px" : "16px",
+    color: "primary",
+    fontSize: isSmallScreen ? "14px" : "17px",
     fontWeight: "bold",
   });
 

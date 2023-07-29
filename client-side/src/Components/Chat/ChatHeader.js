@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import React, { useContext } from "react";
 import UserCard from "../UserCard";
 import { ChatContext } from "../Contexts/ChatProvider";
@@ -7,6 +7,7 @@ import HiddenUserInformation from "../UserInformation";
 
 const ChatHeader = () => {
   const { selectedUser } = useContext(ChatContext);
+
   return (
     <Stack direction={"row"} justifyContent={"space-between"}>
       <Stack direction={"row"} spacing={1}>

@@ -105,7 +105,7 @@ const SignInPage = () => {
         label="Sign In"
         disabled={!isValidate}
       />
-      <Typography color={"#555555"}>
+      <Typography>
         you don't have an account?{" "}
         <StyledTypography variant="span" onClick={() => navigate("/sign-up")}>
           sign up

@@ -24,7 +24,6 @@ const MyAvatar = ({ size, user }) => {
       : "50px";
 
   const StyledAvatar = styled(Avatar)({
-    bgcolor: "#03AC13",
     width: avatarDimensions,
     height: avatarDimensions,
   });

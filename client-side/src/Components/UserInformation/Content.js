@@ -3,14 +3,12 @@ import React, { useContext } from "react";
 import StyledHtmlText from "../StyledHtmlText";
 import { ChatContext } from "../Contexts/ChatProvider";
 import styled from "@emotion/styled";
-import AuthContext from "../Contexts/AuthProvider";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Content = ({ closeDrawer }) => {
   const { selectedUser } = useContext(ChatContext);
 
   const StyledTypography = styled(Typography)({
-    color: "#757575",
     fontSize: "18px",
     fontWeight: "bold",
   });
