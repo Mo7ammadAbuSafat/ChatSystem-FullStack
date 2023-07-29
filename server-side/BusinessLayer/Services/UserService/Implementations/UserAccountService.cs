@@ -106,5 +106,21 @@ namespace BusinessLayer.Services.UserService.Implementations
             user.About = newAbout;
             await unitOfWork.SaveChangesAsync();
         }
+
+        public async Task ChangeThemeModeAsync(int userId, bool isDarkMode)
+        {
+            var authenticatedUserId = authenticatedUserService.GetAuthenticatedUserId();
+            if (authenticatedUserId != userId)
+            {
+                throw new UnauthorizedException();
+            }
+            var user = await userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                throw new NotFoundException(UserExceptionMessages.NotFoundUserById);
+            }
+            user.IsDarkTheme = isDarkMode;
+            await unitOfWork.SaveChangesAsync();
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace BusinessLayer.Services.UserService.Interfaces
         Task<UserResponseDto> GetUserByJwtTokenAsync();
         Task ChangePasswordAsync(int userId, ChangePasswordRequestDto changePasswordDto);
         Task ChangeUserAboutAsync(int userId, string newAbout);
+        Task ChangeThemeModeAsync(int userId, bool isDarkMode);
     }
 }
