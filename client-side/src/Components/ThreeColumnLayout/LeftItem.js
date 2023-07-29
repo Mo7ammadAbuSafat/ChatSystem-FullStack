@@ -8,11 +8,9 @@ const LeftItem = ({ children }) => {
       position={"sticky"}
       top={0}
       sx={{
-        padding: "15px 10px",
         height: "100vh",
         display: { xs: "none", md: "block" },
         overflowY: "auto",
-        backgroundColor: "#f7f7f7",
         minWidth: "350px",
       }}
     >

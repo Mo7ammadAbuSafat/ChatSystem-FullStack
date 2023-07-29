@@ -4,7 +4,7 @@ import GetTime from "../../Utils/GetTime";
 
 const SendedMessage = ({ message, index }) => {
   return (
-    <Tooltip title={GetTime(message.creationDate)} placement="right" arrow>
+    <Tooltip title={GetTime(message.creationDate)} placement="left" arrow>
       <Stack
         key={index}
         p={1}

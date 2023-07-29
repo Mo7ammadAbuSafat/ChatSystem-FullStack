@@ -27,7 +27,9 @@ namespace PersistenceLayer.DbContexts
 
 
             modelBuilder.Entity<User>().Property(u => u.ImageId).IsRequired(false);
+            modelBuilder.Entity<User>().Property(u => u.IsDarkTheme).HasDefaultValue(false);
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
+
         }
     }
 }

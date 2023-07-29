@@ -25,6 +25,7 @@ const MyTextField = ({
       helperText={validation}
       error={validation !== " "}
       disabled={disabled}
+      autoComplete="off"
     />
   );
 };

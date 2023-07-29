@@ -53,5 +53,13 @@ namespace PresentationLayer.Controllers
             await userAccountService.ChangeUserAboutAsync(userId, newAbout);
             return NoContent();
         }
+
+        [Authorize]
+        [HttpPut("{userId}/dark-mode")]
+        public async Task<IActionResult> ChangeThemeMode([FromRoute] int userId, [FromQuery] bool isDarkMode)
+        {
+            await userAccountService.ChangeThemeModeAsync(userId, isDarkMode);
+            return NoContent();
+        }
     }
 }

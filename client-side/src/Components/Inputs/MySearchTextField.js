@@ -4,8 +4,9 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
+import { useTheme } from "@mui/material";
 
-const StyledPaper = styled(Paper)({
+const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: "1px 10px",
   display: "flex",
   alignItems: "center",
@@ -13,12 +14,14 @@ const StyledPaper = styled(Paper)({
   margin: "15px auto 5px auto",
   borderRadius: "20px",
   boxShadow: "none",
-  border: "0.5px solid #eae5e5",
-});
+  border: "0.5px solid silver",
+  backgroundColor: theme.palette.input.primary,
+}));
 
 const MySearchTextField = ({ value, onChange, placeholder }) => {
+  const theme = useTheme();
   return (
-    <StyledPaper>
+    <StyledPaper theme={theme}>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder={placeholder}

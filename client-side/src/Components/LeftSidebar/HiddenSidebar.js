@@ -13,16 +13,10 @@ const HiddenSidebar = () => {
   return (
     <Stack display={{ xs: "flex", md: "none" }} justifyContent={"center"}>
       <IconButton onClick={() => toggleDrawer(true)} sx={{ padding: 0 }}>
-        <MenuIcon sx={{ color: "#03AC13", fontSize: "25px" }} />
+        <MenuIcon sx={{ color: "primary", fontSize: "25px" }} />
       </IconButton>
-      <Drawer
-        open={drawerState}
-        onClose={() => toggleDrawer(false)}
-        sx={{ padding: 2 }}
-      >
-        <Stack p={2}>
-          <LeftSidebar />
-        </Stack>
+      <Drawer open={drawerState} onClose={() => toggleDrawer(false)}>
+        <LeftSidebar />
       </Drawer>
     </Stack>
   );
