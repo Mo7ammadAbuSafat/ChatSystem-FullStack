@@ -27,6 +27,7 @@ The main focus of this project is to demonstrate the integration of the SignalR 
 
 - SignalR
 - AutoMapper
+- Authentication and Authorization (JWT)
 - File Handling
 - Cloudinary (Cloud Service)
 - RESTful API
