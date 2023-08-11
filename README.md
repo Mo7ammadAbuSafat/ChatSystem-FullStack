@@ -19,7 +19,7 @@
 
 Real Chat Website is a modern chat application that allows users to have real-time conversations with each other. The project is built using .NET Core for the backend API and ReactJS for the frontend.
 
-The main focus of this project is to demonstrate the integration of the SignalR library, which enables real-time communication between clients and the server. Users can register, log in, send and receive messages in real-time, and more.
+The main focus of this project is to demonstrate the integration of the SignalR library, which enables real-time communication between clients and the server. Users can register, log in, send and receive messages in real time, and more.
 
 ## Technologies Used
 
@@ -50,33 +50,38 @@ Additionally, the project utilizes Cloudinary, a cloud service, to handle user p
 
 1. **User Registration and Login**: Users can create accounts and log in to access the chat functionality.
 
-2. **Update User Information**: Users can update their profile information, including profile photos and passwords.
+https://github.com/Mo7ammadAbuSafat/ChatSystem-FullStack/assets/103439731/e8e664f6-1d78-441e-bb3b-1acd1b0c32c8
+
+2. **Update User Settings**: Users can update their profile information, including profile photos and passwords.
+
+https://github.com/Mo7ammadAbuSafat/ChatSystem-FullStack/assets/103439731/c7f5ee2b-5447-44b5-b463-1836204f67dd
 
 3. **User Status**: Users can see the online status of other users, indicating if they are currently online or not.
+
+4. **Dark Mode and Light Mode**: Users can switch between dark and light themes based on their preference.
+
+https://github.com/Mo7ammadAbuSafat/ChatSystem-FullStack/assets/103439731/6d3f1bee-e104-4456-ab1f-b20794745857
 
 ### Search
 1. **Search People**: Users can search for other people based on text input, with backend search functionality.
 2. **View People Information**: Users can view information about other registered users.
 
+https://github.com/Mo7ammadAbuSafat/ChatSystem-FullStack/assets/103439731/c7bc9790-3d37-45ec-ace5-c891e1dfe6ec
+
 ### Chat Functionality
 
 1. **Messages History**: The chat stores message history with pagination, allowing users to scroll through past messages.
 
-2. **Real-Time Chatting**: Users can send and receive messages in real-time using SignalR.
+2. **Real-Time Chatting**: Users can send and receive messages in real time using SignalR.
 3. **Recent Chats**: Users can see a list of recent chats with the last message displayed for each one.
 
 4. **Message Notifications**: Users receive notifications for new messages when the chat is not currently selected.
 
+https://github.com/Mo7ammadAbuSafat/ChatSystem-FullStack/assets/103439731/c77400ac-e79e-4398-b863-b5a30ccb01b1
+
 ### User Interface
 
-1. **Dark Mode and Light Mode**: Users can switch between dark and light themes based on their preference.
-
-2. **Responsive Design**: The website is designed to be responsive and work smoothly on various screen sizes.
-
-
-
-
-
+**Responsive Design**: The website is designed to be responsive and work smoothly on various screen sizes.
 
 ## SignalR Library
 
@@ -86,7 +91,7 @@ For more information about SignalR, visit the [SignalR documentation](https://do
 
 ## Layered Architecture
 
-The .NET backend of this project is designed using a layered architecture to promote separation of concerns and maintainability. The architecture typically consists of the following layers:
+The .NET backend of this project is designed using a layered architecture to promote the separation of concerns and maintainability. The architecture typically consists of the following layers:
 
 - Presentation Layer
 - Business Layer
@@ -99,7 +104,7 @@ The layered architecture helps organize the codebase and makes it easier to main
 To run this project locally, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/yourusername/real-chat-website.git`
-2. Navigate to the project directory for both the backend and frontend.
+2. Navigate to the project directory for both the backend and front end.
 3. Install backend dependencies: `dotnet restore`
 4. Start the backend server: `dotnet run`
 5. Install frontend dependencies: `npm install`
