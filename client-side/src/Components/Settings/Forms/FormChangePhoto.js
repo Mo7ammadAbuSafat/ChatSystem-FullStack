@@ -20,6 +20,7 @@ const FormChangePhoto = () => {
     setFile(event.target.files[0]);
     setImageReview(URL.createObjectURL(event.target.files[0]));
   };
+  console.log(file);
 
   const onSubmit = () => {
     if (authContext.user.image !== null) {

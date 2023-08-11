@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import React from "react";
 
-const MyInputFile = ({ handleFileChange }) => {
+const MyInputFile = ({ onChange }) => {
   const FileInput = styled("input")({
     display: "none",
   });
@@ -22,7 +22,7 @@ const MyInputFile = ({ handleFileChange }) => {
           Choose a file
         </StyledFileInputButton>
       </label>
-      <FileInput type="file" id="file-input" onChange={handleFileChange} />
+      <FileInput type="file" id="file-input" onChange={onChange} />
     </>
   );
 };
